@@ -1,6 +1,6 @@
 # CMPE281TeamHackathon
 
-## Team Members
+## Contributors
 - Meenakshi Paryani
 - Nilam Pratim Deka
 - Tuan Pham
