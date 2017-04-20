@@ -16,5 +16,7 @@ sudo cat /var/log/mongodb/mongod.log
 
 starbucks-replica-set
 
+ref - https://gist.github.com/leommoore/309de7c0042ed697ee84
+
 
 
