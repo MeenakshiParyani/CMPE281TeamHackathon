@@ -11,8 +11,7 @@ db.orders.findOneAndDelete();
 db.orders.insert({  
     customerName : "Meenakshi",
     location : "Take-Out",
-    orderId :  11111, 
-    items: [{
+    items : [{
         name     : "Tea",
 	quantity : 1,
 	milk     : "Organic",
