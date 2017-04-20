@@ -9,15 +9,6 @@ var mongoose       = require('mongoose');
 //mongo db config
 var dbConfig = require('./config/db');
 mongoose.connect(dbConfig.url, dbConfig.options);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.on('connected', function(){
-	console.log('conn ' + db.readyState);
-});
-db.once('open', function() {
-  console.log('we\'re open!');
-});
-//console.log(db);
 
 var port = 8080;
 
@@ -28,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('X-HTTP-Method-Override')); 
 
 var routes = require('./app/routes/routes');
-app.get('/api/*', routes);
+app.use('/api', routes);
 
 app.listen(port);               
                 

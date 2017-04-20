@@ -1,0 +1,99 @@
+{
+	"id": "8a5094dc-bb6e-32ad-6ec0-0e91b815df10",
+	"name": "281-Project-Starbucks",
+	"description": "",
+	"order": [
+		"2c2ce580-45eb-a9e4-c253-93d03d80f50b",
+		"97eaf01c-ffe2-aef7-482b-0abf77d41d71",
+		"9bddcb0b-f5ba-9892-0a33-b4f663fee3b9",
+		"e73840d9-6c06-21c5-0453-c7b505b37df4"
+	],
+	"folders": [],
+	"timestamp": 1492673500188,
+	"owner": "1621629",
+	"public": false,
+	"requests": [
+		{
+			"id": "2c2ce580-45eb-a9e4-c253-93d03d80f50b",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://{{host}}:8080/api/order/place",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1492722621829,
+			"name": "Place Order for Customer",
+			"description": "",
+			"collectionId": "8a5094dc-bb6e-32ad-6ec0-0e91b815df10",
+			"responses": [],
+			"rawModeData": "{\r\n  \"customerName\" : \"Meenakshi\",\r\n  \"location\": \"In-Store\",\r\n  \"items\": [\r\n    {\r\n      \"name\": \"latte\",\r\n      \"quantity\": 1,\r\n      \"milk\": \"whole\",\r\n      \"size\": \"large\"\r\n    },\r\n    {\r\n      \"name\": \"chai latte\",\r\n      \"qty\": 2,\r\n      \"milk\": \"half and half\",\r\n      \"size\": \"medium\"\r\n    }\r\n  ]\r\n}"
+		},
+		{
+			"id": "97eaf01c-ffe2-aef7-482b-0abf77d41d71",
+			"headers": "customerName: Meenakshi\nContent-Type: application/x-www-form-urlencoded\n",
+			"url": "http://{{host}}:8080/api/orders/{{customerName}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "customerName",
+					"value": "Meenakshi",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1492722677221,
+			"name": "Get Order for Customer",
+			"description": "Find Order",
+			"collectionId": "8a5094dc-bb6e-32ad-6ec0-0e91b815df10",
+			"responses": []
+		},
+		{
+			"id": "9bddcb0b-f5ba-9892-0a33-b4f663fee3b9",
+			"headers": "",
+			"url": "http://{{host}}:8080/api/order/{{orderId}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1492722605754,
+			"name": "Delete an Order",
+			"description": "Find Order",
+			"collectionId": "8a5094dc-bb6e-32ad-6ec0-0e91b815df10",
+			"responses": []
+		},
+		{
+			"id": "e73840d9-6c06-21c5-0453-c7b505b37df4",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://{{host}}:8080/api/order/{{orderId}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1492722585770,
+			"name": "http://localhost:8080/api/order/58f91abb81f05f35c4ce16cf",
+			"description": "",
+			"collectionId": "8a5094dc-bb6e-32ad-6ec0-0e91b815df10",
+			"responses": [],
+			"rawModeData": "{\n\t\"location\" : \"Take-Out-Home\"\n}"
+		}
+	]
+}
