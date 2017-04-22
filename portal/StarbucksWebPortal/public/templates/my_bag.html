@@ -1,7 +1,8 @@
 <div ng-controller ="myBagCtrl">
-
-
-
-
-
+	<div class="panel panel-default" ng-repeat= "orderItem in bagItems">
+	  <div class="panel-body"> Beverage - {{ orderItem.bevName }} </div>
+	  <div class="panel-body"> Cup Size : {{ orderItem.cupSize }} </div>
+	  <div class="panel-body"> Milk Type : {{ orderItem.milkType }} </div>
+	  <div class="panel-body"> Quantity : {{ orderItem.qty }} </div>
+	</div>
 </div>

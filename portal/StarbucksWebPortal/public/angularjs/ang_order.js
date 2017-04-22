@@ -4,9 +4,13 @@ angular.module('starbucks').controller('orderCtrl', [ '$rootScope', '$scope', '$
 	$scope.addToCart = function () {
 
 		console.log("Bev type :" + $scope.orderItem.bevName) ;
-		$rootScope.order.bagItems.push($scope.orderItem)
-		resetOrderItem () ;
-		$state.go ( 'home' ) ;
+		var orderItemBag = {
+			bevName : $scope.orderItem.bevName ,
+			qty : $scope.orderItem.qty,milkType : $scope.orderItem.milkType,
+			cupSize : $scope.orderItem.cupSize } ;
+			$rootScope.bagItems.push(orderItemBag);
+			resetOrderItem () ;
+			$state.go ( 'home' ) ;
 
 	}
 
