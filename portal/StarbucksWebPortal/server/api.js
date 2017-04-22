@@ -40,7 +40,7 @@ router.post('/order/:orderID/pay', function(req, res) {
   console.log('reached api');
   var options = {
     //url: process.env.GATEWAY_URL + '/order/' + req.params.orderID + '/pay',
-    url: 'http://ec2-54-193-51-136.us-west-1.compute.amazonaws.com:8080/order/' + req.params.orderID + '/pay',
+    url: 'http://ec2-54-193-51-136.us-west-1.compute.amazonaws.com:80/order/' + req.params.orderID + '/pay',
     //method: 'POST', need to decide on this
     method: 'PUT',
     json: req.body

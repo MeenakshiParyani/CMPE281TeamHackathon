@@ -5,7 +5,7 @@
 	  <div class="panel-body"> Milk Type : {{ orderItem.milk }} </div>
 	  <div class="panel-body"> Quantity : {{ orderItem.qty }} </div>
 	</div>
-	<div class="panel panel-default">
+	<div class="panel panel-default" ng-if = " bagItems.length != 0">
 	<form class="form-horizontal">
 	<fieldset>
 		<div class="form-group">
@@ -34,6 +34,10 @@
 		  </div>
 		</div>
 	 </fieldset>
+	 </form>
+	</div>
+	<div class="panel panel-default" ng-if = " bagItems.length == 0 " class="animate-if">
+		<label class="panel-body">There are no items in your bag!!!</label>
 	</div>
 </div>
 </div>
