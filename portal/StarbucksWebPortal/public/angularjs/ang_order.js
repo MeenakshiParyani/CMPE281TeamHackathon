@@ -4,6 +4,7 @@ angular.module('starbucks').controller('orderCtrl', [ '$rootScope', '$scope', '$
 	$scope.addToCart = function () {
 
 		console.log("Bev type :" + $scope.orderItem.bevName) ;
+
 		var orderItemBag = {
 			bevName : $scope.orderItem.bevName ,
 			qty : $scope.orderItem.qty,milkType : $scope.orderItem.milkType,
@@ -11,8 +12,7 @@ angular.module('starbucks').controller('orderCtrl', [ '$rootScope', '$scope', '$
 			$rootScope.bagItems.push(orderItemBag);
 			resetOrderItem () ;
 			$state.go ( 'home' ) ;
-
-	}
+		}
 
 
 	function resetOrderItem (){

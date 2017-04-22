@@ -1,37 +1,31 @@
+var express = require('express');
+var bodyParser = require('body-parser');
+var path = require('path');
+var http = require('http');
 
-/**
- * Module dependencies.
- */
+// Controllers
+var api = require('./server/api');
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , home = require('./routes/home')
-  , http = require('http')
-  , path = require('path');
-
+// Init App
 var app = express();
 
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
+// Middleware
+app.use(bodyParser.json());
+
+// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
+// API route
+app.use('/api', api);
 
-app.get('/', home.homePage);
-app.get('/users', user.list);
-app.get('/home', home.homePage);
+// Serve static files on all other routes
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+// Start server
+var server = http.createServer(app);
+var port = process.env.PORT || '3000';
+server.listen(port, function() {
+  console.log('API running on port ' + port);
 });
