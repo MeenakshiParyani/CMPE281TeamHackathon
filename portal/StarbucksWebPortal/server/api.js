@@ -37,9 +37,12 @@ router.post('/order', function(req, res) {
 });
 
 router.post('/order/:orderID/pay', function(req, res) {
+  console.log('reached api');
   var options = {
-    url: process.env.GATEWAY_URL + '/order/' + req.params.orderID + '/pay',
-    method: 'POST',
+    //url: process.env.GATEWAY_URL + '/order/' + req.params.orderID + '/pay',
+    url: 'http://localhost:8080/order/' + req.params.orderID + '/pay',
+    //method: 'POST', need to decide on this
+    method: 'PUT',
     json: req.body
   };
 

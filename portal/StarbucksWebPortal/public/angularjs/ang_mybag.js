@@ -4,23 +4,20 @@ angular.module('starbucks').controller('myBagCtrl', [ '$rootScope', '$scope', '$
 
 	$scope.placeOrder = function(){
 		console.log("Order Placed");
-		$rootScope.customerName = $scope.customerName;
-		console.log($rootScope.customerName);
-		console.log($scope.inRadio);
-
 		$rootScope.order = {
 				"customerName" : $rootScope.customerName,
 				"items" : $rootScope.bagItems,
 				"location" : $scope.inRadio
 		};
-
+		$rootScope.order.customerName = $scope.customerName;
 		$http({
 			method : "POST",
 			url : '/api/order',
 			data : $rootScope.order
 		}).success(function(response) {
 			console.log('post response ' + response);
-			$rootScope.orderId = response.orderId;
+			$rootScope.order.orderId = response.orderId;
+			$state.go('payment');
 		}).error(function(err) {
 			console.log(err);
 		});

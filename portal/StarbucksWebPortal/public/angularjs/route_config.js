@@ -50,7 +50,7 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 	});
 
 	$stateProvider.state('payment', {
-		url : '/my_bag',
+		url : '/payment',
 		views : {
 			'header' : {
 				templateUrl : 'templates/header.html',

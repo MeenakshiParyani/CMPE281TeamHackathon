@@ -59,7 +59,7 @@ router.delete('/order/:orderId', function(req, res){
 
 // Pay for an Order
 router.put('/order/:orderId/pay', function(req, res){
-    console.log(req.params.orderId);
+    console.log('order id ' + req.params.orderId);
     order.findOneAndUpdate({ _id: req.params.orderId }, {"status" : "Paid"}, function(err, order){
         if(err)
             message =  { "error" : true, "message": err};
