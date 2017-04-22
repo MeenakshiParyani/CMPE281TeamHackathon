@@ -1,6 +1,5 @@
 // TODO: Replace panics with properly handled responses
-// TODO: Manage order state
-// TODO: Prevent init/replacing of fields used by server
+// TODO: Keep it DRY with error handling middleware
 
 package controllers
 
@@ -54,13 +53,13 @@ func (controller *OrdersController) GetOrder(w http.ResponseWriter, r *http.Requ
 }
 
 func (controller *OrdersController) CreateOrder(w http.ResponseWriter, r *http.Request) {
-	var newOrder models.Order
-	if err := json.NewDecoder(r.Body).Decode(&newOrder); err != nil {
+	var orderRequest models.OrderRequest
+	if err := json.NewDecoder(r.Body).Decode(&orderRequest); err != nil {
 		panic(err)
 	}
 	defer r.Body.Close()
 
-	err, order := controller.datastore.CreateOrder(&newOrder)
+	err, order := controller.datastore.CreateOrder(&orderRequest)
 	if err != nil {
 		panic(err)
 	}
@@ -75,14 +74,28 @@ func (controller *OrdersController) CreateOrder(w http.ResponseWriter, r *http.R
 
 func (controller *OrdersController) UpdateOrder(w http.ResponseWriter, r *http.Request) {
 	orderID := mux.Vars(r)["order-id"]
+	if err, order := controller.datastore.GetOrder(orderID); err != nil {
+		switch e := err.(type) {
+		case middleware.NoResultFound:
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(APIError{e.Error()})
+			return
+		default:
+			panic(e)
+		}
+	} else if order.Status != models.OrderPlaced {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(APIError{"Order Update Rejected."})
+		return
+	}
 
-	var newOrder models.Order
-	if err := json.NewDecoder(r.Body).Decode(&newOrder); err != nil {
+	var orderRequest models.OrderRequest
+	if err := json.NewDecoder(r.Body).Decode(&orderRequest); err != nil {
 		panic(err)
 	}
 	defer r.Body.Close()
 
-	err, order := controller.datastore.UpdateOrder(orderID, &newOrder)
+	err, order := controller.datastore.UpdateOrder(orderID, &orderRequest)
 	if err != nil {
 		panic(err)
 	}
@@ -94,6 +107,21 @@ func (controller *OrdersController) UpdateOrder(w http.ResponseWriter, r *http.R
 
 func (controller *OrdersController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	orderID := mux.Vars(r)["order-id"]
+	if err, order := controller.datastore.GetOrder(orderID); err != nil {
+		switch e := err.(type) {
+		case middleware.NoResultFound:
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(APIError{e.Error()})
+			return
+		default:
+			panic(e)
+		}
+	} else if order.Status != models.OrderPlaced {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(APIError{"Order Cancelling Rejected."})
+		return
+	}
+
 	err := controller.datastore.DeleteOrder(orderID)
 	if err != nil {
 		switch e := err.(type) {

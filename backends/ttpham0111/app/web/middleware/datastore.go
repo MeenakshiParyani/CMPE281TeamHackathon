@@ -14,7 +14,7 @@ func (err NoResultFound) Error() string {
 type Datastore interface {
 	GetOrders() (error, []models.Order)
 	GetOrder(string) (error, *models.Order)
-	CreateOrder(*models.Order) (error, *models.Order)
-	UpdateOrder(string, *models.Order) (error, *models.Order)
+	CreateOrder(*models.OrderRequest) (error, *models.Order)
+	UpdateOrder(string, *models.OrderRequest) (error, *models.Order)
 	DeleteOrder(string) error
 }

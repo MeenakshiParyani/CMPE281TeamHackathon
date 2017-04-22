@@ -1,5 +1,3 @@
-// TODO: Fill in links
-
 package models
 
 const (
@@ -23,7 +21,12 @@ type Order struct {
 	Items    []Item            `json:"items"`
 	Links    map[string]string `json:"links"`
 	Message  string            `json:"message"`
-	Status   int               `json:"status"`
+	Status   int               `json:"-"`
+}
+
+type OrderRequest struct {
+	Location string `json:"location"`
+	Items    []Item `json:"items"`
 }
 
 func (order *Order) SetOrderStatus(status int, uri string) {

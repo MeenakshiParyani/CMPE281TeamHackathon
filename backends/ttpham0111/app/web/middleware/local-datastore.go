@@ -66,18 +66,22 @@ func (d *LocalDatastore) GetOrder(orderID string) (error, *models.Order) {
 	return NoResultFound{}, nil
 }
 
-func (d *LocalDatastore) CreateOrder(order *models.Order) (error, *models.Order) {
-	order.ID = uuid.NewV4().String()
-	orders = append(orders, *order)
+func (d *LocalDatastore) CreateOrder(orderRequest *models.OrderRequest) (error, *models.Order) {
+	order := models.Order{
+		ID:       uuid.NewV4().String(),
+		Location: orderRequest.Location,
+		Items:    orderRequest.Items,
+	}
+	orders = append(orders, order)
 	return nil, &orders[len(orders)-1]
 }
 
-func (d *LocalDatastore) UpdateOrder(orderID string, newOrder *models.Order) (error, *models.Order) {
+func (d *LocalDatastore) UpdateOrder(orderID string, orderRequest *models.OrderRequest) (error, *models.Order) {
 	for i, _ := range orders {
 		if orders[i].ID == orderID {
 			order := orders[i]
-			order.Location = newOrder.Location
-			order.Items = newOrder.Items
+			order.Location = orderRequest.Location
+			order.Items = orderRequest.Items
 			return nil, &order
 		}
 	}
