@@ -21,8 +21,10 @@ router.post('/order', function(req, res) {
     var newOrder = new order(req.body);
     console.log(newOrder);
     newOrder.save(function(err, order) {
-        if(err)
+        if(err){
             message = {"error": true, "message" : "Error Processing the Order"};
+            console.log(err);
+        }
         else
             message = {"error": false, "message" : "Order Placed Successfully", "orderId" : order._id};
         res.json(message);

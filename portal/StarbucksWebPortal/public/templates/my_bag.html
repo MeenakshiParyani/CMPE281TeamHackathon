@@ -5,4 +5,35 @@
 	  <div class="panel-body"> Milk Type : {{ orderItem.milkType }} </div>
 	  <div class="panel-body"> Quantity : {{ orderItem.qty }} </div>
 	</div>
+	<div class="panel panel-default">
+	<form class="form-horizontal">
+	<fieldset>
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="mode">Order Mode</label>
+		  <div class="col-md-4"> 
+		    <label class="radio-inline" for="mode-0">
+		      <input type="radio" name="mode" id="mode-0" value="in" checked="checked">
+		      In Store
+		    </label> 
+		    <label class="radio-inline" for="mode-1">
+		      <input type="radio" name="mode" id="mode-1" value="out">
+		      Take Out
+		    </label>
+		  </div>
+		</div>
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="name">Name</label>  
+		  <div class="col-md-4">
+		  <input id="name" name="name" type="text" placeholder="enter your name" class="form-control input-md" required="">
+		  </div>
+		</div>
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="order">Proceed to Order</label>
+		  <div class="col-md-4">
+		    <button id="order" name="order" class="btn btn-primary" ng-click = "placeOrder();">Place Order</button>
+		  </div>
+		</div>
+	 </fieldset>
+	</div>
+</div>
 </div>
