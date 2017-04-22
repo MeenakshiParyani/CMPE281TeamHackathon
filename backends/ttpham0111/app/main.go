@@ -7,5 +7,6 @@ import (
 
 func main() {
 	datastore := middleware.LocalDatastore{}
-	web.StartServer(&datastore)
+	numBaristas := 8
+	web.StartServer(&datastore, numBaristas)
 }

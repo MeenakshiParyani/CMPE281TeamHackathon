@@ -10,11 +10,13 @@ import (
 
 type PaymentController struct {
 	datastore middleware.Datastore
+	queue     chan *models.Order
 }
 
-func NewPaymentController(datastore middleware.Datastore) *PaymentController {
+func NewPaymentController(datastore middleware.Datastore, queue chan *models.Order) *PaymentController {
 	return &PaymentController{
 		datastore,
+		queue,
 	}
 }
 
@@ -41,9 +43,7 @@ func (controller *PaymentController) CreatePayment(w http.ResponseWriter, r *htt
 	}
 
 	order.SetOrderStatus(models.OrderPaid)
-	if err != nil {
-		panic(err)
-	}
+	controller.queue <- order
 
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(order); err != nil {

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"ttpham0111/app/controllers"
+	"ttpham0111/app/models"
 	"ttpham0111/app/web/middleware"
 )
 
@@ -14,9 +15,9 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
-func GetRoutes(datastore middleware.Datastore) []Route {
+func GetRoutes(datastore middleware.Datastore, queue chan *models.Order) []Route {
 	ordersController := controllers.NewOrdersController(datastore)
-	paymentController := controllers.NewPaymentController(datastore)
+	paymentController := controllers.NewPaymentController(datastore, queue)
 
 	return []Route{
 		Route{
