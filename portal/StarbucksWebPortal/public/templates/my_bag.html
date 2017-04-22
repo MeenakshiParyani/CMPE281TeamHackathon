@@ -1,8 +1,8 @@
 <div ng-controller ="myBagCtrl">
 	<div class="panel panel-default" ng-repeat= "orderItem in bagItems">
-	  <div class="panel-body"> Beverage - {{ orderItem.bevName }} </div>
-	  <div class="panel-body"> Cup Size : {{ orderItem.cupSize }} </div>
-	  <div class="panel-body"> Milk Type : {{ orderItem.milkType }} </div>
+	  <div class="panel-body"> Beverage - {{ orderItem.name }} </div>
+	  <div class="panel-body"> Cup Size : {{ orderItem.size }} </div>
+	  <div class="panel-body"> Milk Type : {{ orderItem.milk }} </div>
 	  <div class="panel-body"> Quantity : {{ orderItem.qty }} </div>
 	</div>
 	<div class="panel panel-default">
@@ -12,11 +12,11 @@
 		  <label class="col-md-4 control-label" for="mode">Order Mode</label>
 		  <div class="col-md-4"> 
 		    <label class="radio-inline" for="mode-0">
-		      <input type="radio" name="mode" id="mode-0" value="in" checked="checked">
+		      <input type="radio" name="mode" id="mode-0" ng-value="in" checked="checked" ng-model="inRadio">
 		      In Store
 		    </label> 
 		    <label class="radio-inline" for="mode-1">
-		      <input type="radio" name="mode" id="mode-1" value="out">
+		      <input type="radio" name="mode" id="mode-1" ng-value="out" ng-model="outRadio">
 		      Take Out
 		    </label>
 		  </div>
@@ -24,15 +24,16 @@
 		<div class="form-group">
 		  <label class="col-md-4 control-label" for="name">Name</label>  
 		  <div class="col-md-4">
-		  <input id="name" name="name" type="text" placeholder="enter your name" class="form-control input-md" required="">
+		  <input id="name" name="name" type="text" placeholder="enter your name" class="form-control input-md" required="" ng-model="customerName">
 		  </div>
 		</div>
 		<div class="form-group">
 		  <label class="col-md-4 control-label" for="order">Proceed to Order</label>
 		  <div class="col-md-4">
-		    <button id="order" name="order" class="btn btn-primary" ng-click = "placeOrder();">Place Order</button>
+		    <button id="order" name="order" class="btn btn-primary" ng-click = "placeOrder()">Place Order</button>
 		  </div>
 		</div>
+
 	 </fieldset>
 	</div>
 </div>

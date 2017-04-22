@@ -6,12 +6,16 @@ angular.module('starbucks').controller('orderCtrl', [ '$rootScope', '$scope', '$
 		console.log("Bev type :" + $scope.orderItem.bevName) ;
 
 		var orderItemBag = {
-			bevName : $scope.orderItem.bevName ,
-			qty : $scope.orderItem.qty,milkType : $scope.orderItem.milkType,
-			cupSize : $scope.orderItem.cupSize } ;
-			$rootScope.bagItems.push(orderItemBag);
-			resetOrderItem () ;
-			$state.go ( 'home' ) ;
+			name : $scope.orderItem.bevName ,
+			qty : $scope.orderItem.qty,
+			milk : $scope.orderItem.milkType,
+			size : $scope.orderItem.cupSize 
+		} ;
+
+		$rootScope.bagItems.push(orderItemBag);
+		resetOrderItem () ;
+		$state.go ( 'home' ) ;
+			
 		}
 
 
