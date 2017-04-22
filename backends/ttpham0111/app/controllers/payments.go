@@ -22,18 +22,9 @@ func NewPaymentController(datastore middleware.Datastore, queue chan *models.Ord
 
 func (controller *PaymentController) CreatePayment(w http.ResponseWriter, r *http.Request) {
 	orderID := mux.Vars(r)["order-id"]
-
-	err, order := controller.datastore.GetOrder(orderID)
-
+	err, order := getOrder(orderID, controller.datastore, w, r)
 	if err != nil {
-		switch e := err.(type) {
-		case middleware.NoResultFound:
-			w.WriteHeader(http.StatusNotFound)
-			json.NewEncoder(w).Encode(APIError{e.Error()})
-			return
-		default:
-			panic(e)
-		}
+		return
 	}
 
 	if order.Status != models.OrderPlaced {

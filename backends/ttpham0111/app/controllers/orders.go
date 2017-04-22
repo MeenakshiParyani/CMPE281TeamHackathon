@@ -34,17 +34,9 @@ func (controller *OrdersController) GetOrders(w http.ResponseWriter, r *http.Req
 
 func (controller *OrdersController) GetOrder(w http.ResponseWriter, r *http.Request) {
 	orderID := mux.Vars(r)["order-id"]
-
-	err, order := controller.datastore.GetOrder(orderID)
+	err, order := getOrder(orderID, controller.datastore, w, r)
 	if err != nil {
-		switch e := err.(type) {
-		case middleware.NoResultFound:
-			w.WriteHeader(http.StatusNotFound)
-			json.NewEncoder(w).Encode(APIError{e.Error()})
-			return
-		default:
-			panic(e)
-		}
+		return
 	}
 
 	if err := json.NewEncoder(w).Encode(&order); err != nil {
@@ -74,15 +66,8 @@ func (controller *OrdersController) CreateOrder(w http.ResponseWriter, r *http.R
 
 func (controller *OrdersController) UpdateOrder(w http.ResponseWriter, r *http.Request) {
 	orderID := mux.Vars(r)["order-id"]
-	if err, order := controller.datastore.GetOrder(orderID); err != nil {
-		switch e := err.(type) {
-		case middleware.NoResultFound:
-			w.WriteHeader(http.StatusNotFound)
-			json.NewEncoder(w).Encode(APIError{e.Error()})
-			return
-		default:
-			panic(e)
-		}
+	if err, order := getOrder(orderID, controller.datastore, w, r); err != nil {
+		return
 	} else if order.Status != models.OrderPlaced {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(APIError{"Order Update Rejected."})
@@ -107,15 +92,8 @@ func (controller *OrdersController) UpdateOrder(w http.ResponseWriter, r *http.R
 
 func (controller *OrdersController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	orderID := mux.Vars(r)["order-id"]
-	if err, order := controller.datastore.GetOrder(orderID); err != nil {
-		switch e := err.(type) {
-		case middleware.NoResultFound:
-			w.WriteHeader(http.StatusNotFound)
-			json.NewEncoder(w).Encode(APIError{e.Error()})
-			return
-		default:
-			panic(e)
-		}
+	if err, order := getOrder(orderID, controller.datastore, w, r); err != nil {
+		return
 	} else if order.Status != models.OrderPlaced {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(APIError{"Order Cancelling Rejected."})
@@ -135,4 +113,20 @@ func (controller *OrdersController) DeleteOrder(w http.ResponseWriter, r *http.R
 	}
 
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func getOrder(orderID string, datastore middleware.Datastore, w http.ResponseWriter, r *http.Request) (error, *models.Order) {
+	err, order := datastore.GetOrder(orderID)
+	if err != nil {
+		switch e := err.(type) {
+		case middleware.NoResultFound:
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(APIError{e.Error()})
+			return e, nil
+		default:
+			panic(e)
+		}
+	}
+
+	return nil, order
 }
