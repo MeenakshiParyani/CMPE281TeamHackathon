@@ -42,7 +42,7 @@ func (controller *PaymentController) CreatePayment(w http.ResponseWriter, r *htt
 		return
 	}
 
-	order.SetOrderStatus(models.OrderPaid)
+	order.SetOrderStatus(models.OrderPaid, "")
 	controller.queue <- order
 
 	w.WriteHeader(http.StatusCreated)

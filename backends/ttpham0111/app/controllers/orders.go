@@ -65,7 +65,7 @@ func (controller *OrdersController) CreateOrder(w http.ResponseWriter, r *http.R
 		panic(err)
 	}
 
-	order.SetOrderStatus(models.OrderPlaced)
+	order.SetOrderStatus(models.OrderPlaced, r.Host)
 
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(&order); err != nil {

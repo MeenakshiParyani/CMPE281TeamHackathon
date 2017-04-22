@@ -26,14 +26,14 @@ type Order struct {
 	Status   int               `json:"status"`
 }
 
-func (order *Order) SetOrderStatus(status int) {
+func (order *Order) SetOrderStatus(status int, uri string) {
 	switch status {
 	case OrderPlaced:
 		order.Status = OrderPlaced
 		order.Message = "Order has been placed."
 		order.Links = map[string]string{
-			"orders":  "",
-			"payment": "",
+			"order":   uri + "/order/" + order.ID,
+			"payment": uri + "/order/" + order.ID + "/pay",
 		}
 
 	case OrderPaid:
