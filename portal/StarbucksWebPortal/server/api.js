@@ -24,7 +24,8 @@ router.get('/order/:orderID', function(req, res) {
 
 router.post('/order', function(req, res) {
   var options = {
-    url: process.env.GATEWAY_URL + '/order',
+    //url: process.env.GATEWAY_URL + '/order',
+    url : 'http://ec2-54-193-51-136.us-west-1.compute.amazonaws.com:80/order',
     method: 'POST',
     json: req.body
   };

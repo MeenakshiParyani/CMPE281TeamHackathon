@@ -12,11 +12,11 @@
 		  <label class="col-md-4 control-label" for="mode">Order Mode</label>
 		  <div class="col-md-4"> 
 		    <label class="radio-inline" for="mode-0">
-		      <input type="radio" name="mode" id="mode-0" ng-value="in" checked="checked" ng-model="inRadio">
+		      <input type="radio" name="mode" id="mode-0" value="Dine-In" checked="checked" ng-model="inRadio">
 		      In Store
 		    </label> 
 		    <label class="radio-inline" for="mode-1">
-		      <input type="radio" name="mode" id="mode-1" ng-value="out" ng-model="outRadio">
+		      <input type="radio" name="mode" id="mode-1" value="Take-out" ng-model="inRadio">
 		      Take Out
 		    </label>
 		  </div>
@@ -33,7 +33,6 @@
 		    <button id="order" name="order" class="btn btn-primary" ng-click = "placeOrder()">Place Order</button>
 		  </div>
 		</div>
-
 	 </fieldset>
 	</div>
 </div>
