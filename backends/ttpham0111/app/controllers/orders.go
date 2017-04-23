@@ -6,6 +6,7 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"ttpham0111/app/models"
 	"ttpham0111/app/web/middleware"
@@ -51,22 +52,28 @@ func (controller *OrdersController) CreateOrder(w http.ResponseWriter, r *http.R
 	}
 	defer r.Body.Close()
 
-	err, order := controller.datastore.CreateOrder(&orderRequest)
+	newOrder := models.Order{
+		ID:       bson.NewObjectId(),
+		Location: orderRequest.Location,
+		Items:    orderRequest.Items,
+	}
+	newOrder.SetOrderStatus(models.OrderPlaced, r.Host)
+
+	err, order := controller.datastore.CreateOrder(&newOrder)
 	if err != nil {
 		panic(err)
 	}
 
-	order.SetOrderStatus(models.OrderPlaced, r.Host)
-
 	w.WriteHeader(http.StatusCreated)
-	if err := json.NewEncoder(w).Encode(&order); err != nil {
+	if err := json.NewEncoder(w).Encode(order); err != nil {
 		panic(err)
 	}
 }
 
 func (controller *OrdersController) UpdateOrder(w http.ResponseWriter, r *http.Request) {
 	orderID := mux.Vars(r)["order-id"]
-	if err, order := getOrder(orderID, controller.datastore, w, r); err != nil {
+	err, order := getOrder(orderID, controller.datastore, w, r)
+	if err != nil {
 		return
 	} else if order.Status != models.OrderPlaced {
 		w.WriteHeader(http.StatusBadRequest)
@@ -80,7 +87,10 @@ func (controller *OrdersController) UpdateOrder(w http.ResponseWriter, r *http.R
 	}
 	defer r.Body.Close()
 
-	err, order := controller.datastore.UpdateOrder(orderID, &orderRequest)
+	order.Location = orderRequest.Location
+	order.Items = orderRequest.Items
+
+	err, order = controller.datastore.UpdateOrder(orderID, order)
 	if err != nil {
 		panic(err)
 	}

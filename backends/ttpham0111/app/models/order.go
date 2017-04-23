@@ -1,5 +1,7 @@
 package models
 
+import "gopkg.in/mgo.v2/bson"
+
 const (
 	OrderPlaced = iota
 	OrderPaid
@@ -16,7 +18,7 @@ type Item struct {
 }
 
 type Order struct {
-	ID       string            `json:"id"`
+	ID       bson.ObjectId     `json:"id" bson:"_id,omitempty"`
 	Location string            `json:"location"`
 	Items    []Item            `json:"items"`
 	Links    map[string]string `json:"links"`
@@ -35,8 +37,8 @@ func (order *Order) SetOrderStatus(status int, uri string) {
 		order.Status = OrderPlaced
 		order.Message = "Order has been placed."
 		order.Links = map[string]string{
-			"order":   uri + "/order/" + order.ID,
-			"payment": uri + "/order/" + order.ID + "/pay",
+			"order":   uri + "/order/" + order.ID.Hex(),
+			"payment": uri + "/order/" + order.ID.Hex() + "/pay",
 		}
 
 	case OrderPaid:

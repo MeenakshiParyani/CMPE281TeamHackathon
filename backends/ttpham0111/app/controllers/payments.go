@@ -34,6 +34,11 @@ func (controller *PaymentController) CreatePayment(w http.ResponseWriter, r *htt
 	}
 
 	order.SetOrderStatus(models.OrderPaid, "")
+	err, order = controller.datastore.UpdateOrder(order.ID.Hex(), order)
+	if err != nil {
+		panic(err)
+	}
+
 	controller.queue <- order
 
 	w.WriteHeader(http.StatusCreated)

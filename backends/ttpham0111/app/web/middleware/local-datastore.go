@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/satori/go.uuid"
+	"gopkg.in/mgo.v2/bson"
 	"ttpham0111/app/models"
 )
 
@@ -57,8 +57,9 @@ func (d *LocalDatastore) GetOrders() (error, []models.Order) {
 }
 
 func (d *LocalDatastore) GetOrder(orderID string) (error, *models.Order) {
+	objectID := bson.ObjectIdHex(orderID)
 	for i, _ := range orders {
-		if orders[i].ID == orderID {
+		if orders[i].ID == objectID {
 			return nil, &orders[i]
 		}
 	}
@@ -66,19 +67,16 @@ func (d *LocalDatastore) GetOrder(orderID string) (error, *models.Order) {
 	return NoResultFound{}, nil
 }
 
-func (d *LocalDatastore) CreateOrder(orderRequest *models.OrderRequest) (error, *models.Order) {
-	order := models.Order{
-		ID:       uuid.NewV4().String(),
-		Location: orderRequest.Location,
-		Items:    orderRequest.Items,
-	}
-	orders = append(orders, order)
+func (d *LocalDatastore) CreateOrder(order *models.Order) (error, *models.Order) {
+	order.ID = bson.NewObjectId()
+	orders = append(orders, *order)
 	return nil, &orders[len(orders)-1]
 }
 
 func (d *LocalDatastore) UpdateOrder(orderID string, orderRequest *models.OrderRequest) (error, *models.Order) {
+	objectID := bson.ObjectIdHex(orderID)
 	for i, _ := range orders {
-		if orders[i].ID == orderID {
+		if orders[i].ID == objectID {
 			order := orders[i]
 			order.Location = orderRequest.Location
 			order.Items = orderRequest.Items
@@ -90,9 +88,10 @@ func (d *LocalDatastore) UpdateOrder(orderID string, orderRequest *models.OrderR
 }
 
 func (d *LocalDatastore) DeleteOrder(orderID string) error {
+	objectID := bson.ObjectIdHex(orderID)
 	lastIndex := len(orders) - 1
 	for i, order := range orders {
-		if order.ID == orderID {
+		if order.ID == objectID {
 			orders[i] = orders[lastIndex]
 			orders[lastIndex] = models.Order{}
 			orders = orders[:lastIndex]

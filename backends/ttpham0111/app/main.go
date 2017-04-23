@@ -6,7 +6,9 @@ import (
 )
 
 func main() {
-	datastore := middleware.LocalDatastore{}
+	datastore := middleware.NewMgoDatastore("mongodb://mongodb/cmpe281")
+	defer datastore.Close()
+
 	numBaristas := 8
-	web.StartServer(&datastore, numBaristas)
+	web.StartServer(datastore, numBaristas)
 }
