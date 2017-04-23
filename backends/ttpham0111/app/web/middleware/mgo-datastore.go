@@ -26,40 +26,46 @@ func (d *MgoDatastore) Close() {
 }
 
 func (d *MgoDatastore) GetOrders() (error, []models.Order) {
-	var orders []models.Order
+	orders := make([]models.Order, 0)
 	err := d.c.Find(nil).All(&orders)
-	if err != nil {
-		panic(err)
-	}
-	return nil, orders
+	return err, orders
 }
 
 func (d *MgoDatastore) GetOrder(orderID string) (error, *models.Order) {
+	if !bson.IsObjectIdHex(orderID) {
+		return NoResultFound{}, nil
+	}
+
 	var order models.Order
 	err := d.c.FindId(bson.ObjectIdHex(orderID)).One(&order)
-	if err != nil {
-		panic(err)
+	if err == mgo.ErrNotFound {
+		return NoResultFound{}, nil
 	}
-	return nil, &order
+	return err, &order
 }
 
 func (d *MgoDatastore) CreateOrder(order *models.Order) (error, *models.Order) {
 	err := d.c.Insert(order)
-	if err != nil {
-		panic(err)
-	}
-	return nil, order
+	return err, order
 }
 
 func (d *MgoDatastore) UpdateOrder(orderID string, order *models.Order) (error, *models.Order) {
-	err := d.c.UpdateId(bson.ObjectIdHex(orderID), order)
-	if err != nil {
-		panic(err)
+	if !bson.IsObjectIdHex(orderID) {
+		return NoResultFound{}, nil
 	}
-	return nil, order
+
+	err := d.c.UpdateId(bson.ObjectIdHex(orderID), order)
+	if err == mgo.ErrNotFound {
+		return NoResultFound{}, nil
+	}
+	return err, order
 }
 
 func (d *MgoDatastore) DeleteOrder(orderID string) error {
+	if !bson.IsObjectIdHex(orderID) {
+		return NoResultFound{}
+	}
+
 	err := d.c.RemoveId(bson.ObjectIdHex(orderID))
 	return err
 }
