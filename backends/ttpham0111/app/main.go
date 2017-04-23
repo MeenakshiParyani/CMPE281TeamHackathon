@@ -1,12 +1,18 @@
 package main
 
 import (
+	"os"
 	"ttpham0111/app/web"
 	"ttpham0111/app/web/middleware"
 )
 
 func main() {
-	datastore := middleware.NewMgoDatastore("mongodb://mongodb/cmpe281")
+	var datastore middleware.Datastore
+	if dbUrl := os.Getenv("DB_URL"); dbUrl != "" {
+		datastore = middleware.NewMgoDatastore(dbUrl)
+	} else {
+		datastore = &middleware.LocalDatastore{}
+	}
 	defer datastore.Close()
 
 	numBaristas := 8

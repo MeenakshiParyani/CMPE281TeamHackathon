@@ -7,49 +7,10 @@ import (
 
 type LocalDatastore struct{}
 
-var orders = []models.Order{
-	models.Order{
-		"a",
-		"Sunnyvale",
-		[]models.Item{
-			models.Item{
-				2,
-				"Mocha Frappuccino",
-				"Whole Milk",
-				"Grande",
-			},
-			models.Item{
-				1,
-				"Caramel Frappuccino",
-				"Whole Milk",
-				"Grande",
-			},
-		},
-		map[string]string{},
-		"No Message",
-		models.OrderPlaced,
-	},
-	models.Order{
-		"b",
-		"San Jose",
-		[]models.Item{
-			models.Item{
-				1,
-				"Mocha Frappuccino",
-				"Non-Fat Milk",
-				"Grande",
-			},
-			models.Item{
-				3,
-				"Caramel Latte",
-				"Whole Milk",
-				"Venti",
-			},
-		},
-		map[string]string{},
-		"No Message",
-		models.OrderPreparing,
-	},
+var orders []models.Order = make([]models.Order, 0)
+
+func (d *LocalDatastore) Close() {
+	return
 }
 
 func (d *LocalDatastore) GetOrders() (error, []models.Order) {
@@ -68,19 +29,16 @@ func (d *LocalDatastore) GetOrder(orderID string) (error, *models.Order) {
 }
 
 func (d *LocalDatastore) CreateOrder(order *models.Order) (error, *models.Order) {
-	order.ID = bson.NewObjectId()
 	orders = append(orders, *order)
 	return nil, &orders[len(orders)-1]
 }
 
-func (d *LocalDatastore) UpdateOrder(orderID string, orderRequest *models.OrderRequest) (error, *models.Order) {
+func (d *LocalDatastore) UpdateOrder(orderID string, order *models.Order) (error, *models.Order) {
 	objectID := bson.ObjectIdHex(orderID)
 	for i, _ := range orders {
 		if orders[i].ID == objectID {
-			order := orders[i]
-			order.Location = orderRequest.Location
-			order.Items = orderRequest.Items
-			return nil, &order
+			orders[i] = *order
+			return nil, order
 		}
 	}
 

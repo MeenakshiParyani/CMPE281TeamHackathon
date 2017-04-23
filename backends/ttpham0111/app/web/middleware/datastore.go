@@ -12,6 +12,7 @@ func (err NoResultFound) Error() string {
 }
 
 type Datastore interface {
+	Close()
 	GetOrders() (error, []models.Order)
 	GetOrder(string) (error, *models.Order)
 	CreateOrder(*models.Order) (error, *models.Order)
