@@ -48,10 +48,12 @@ public class StarbucksAPI {
         Order order =  DbOperations.getOrder ( key ) ;
 
         //return StarbucksAPI.orders.get( key ) ;
+        if( order!=null ) {
 
-        for ( OrderItem item : order.items ) 
+            for ( OrderItem item : order.items ) 
 
-            System.out.println( "Order read ---------" +  item.milk ) ;
+                System.out.println( "Order read ---------" +  item.milk ) ;
+         }
 
         return order;
     }

@@ -38,7 +38,7 @@ import java.util.ArrayList ;
 public class DbOperations { 
 
 
-	private static MongoClient mongoClient = new MongoClient( "localhost" , 27017 )  ;
+	private static MongoClient mongoClient = new MongoClient( "52.53.176.93" , 27017 )  ;
 
 
 	private static MongoCollection<Document> getCollection ( String collName ) {
