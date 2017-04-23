@@ -17,11 +17,11 @@ public class StarbucksServer extends Application {
     @Override
     public Restlet createInboundRoot() {
         Router router = new Router(getContext()) ;
-        router.attach( "/v3/starbucks/SanJose/order/{order_id}", OrderResource.class ) ;        
-        router.attach( "/v3/starbucks/SanJose/order/{order_id}/pay", PaymentResource.class ) ;        
-        router.attach( "/v3/starbucks/SanJose/order", OrderResource.class ) ;        
-        router.attach( "/v3/starbucks/SanJose/orders", OrdersResource.class ) ;        
-        router.attach( "/SanJose", PingResource.class ) ;        
+        router.attach( "/order/{order_id}", OrderResource.class ) ;        
+        router.attach( "/order/{order_id}/pay", PaymentResource.class ) ;        
+        router.attach( "/order", OrderResource.class ) ;        
+        router.attach( "/orders", OrdersResource.class ) ;        
+        router.attach( "/", PingResource.class ) ;        
         return router;
     }
 
