@@ -10,7 +10,7 @@ import java.io.IOException ;
 
 public class PaymentResource extends ServerResource {
 
-    @Post
+    @Get
     public Representation post_action (Representation rep) throws IOException {
 
         String order_id = getAttribute("order_id") ;

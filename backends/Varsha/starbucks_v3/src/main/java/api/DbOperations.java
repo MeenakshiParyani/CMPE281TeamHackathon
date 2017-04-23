@@ -112,15 +112,23 @@ public class DbOperations {
 
 		Document orderDtlsDoc = orderColl.find ( eq ( "_id" , order_id ) ).first() ;
 
+		//System.out.println("DbOperations : Getting order from DB !! " + orderDtlsDoc.getString("location"));
+
 		//2. Convert the Document to JSON string
 		if(orderDtlsDoc != null ) {
 
+			System.out.println("DbOperations : Order not null !! ");
+
 			String orderJsonStr = orderDtlsDoc.toJson();
+
+			System.out.println( "DbOperations  : String Json : " + orderJsonStr ) ; 
 
 			//3. Convert the JSON string into Order object
 			try { 
 
 				orderObj = mapper.readValue ( orderJsonStr , Order.class ) ;
+
+				System.out.println( "DBOperations  :  Order object after conversion : " + orderObj.location ) ; 
 
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
@@ -131,6 +139,9 @@ public class DbOperations {
 				e.printStackTrace();
 			}
 
+		}else{
+
+			System.out.println("---------In DBOperations : Null document for order ") ;
 		}
 
 		return orderObj ;

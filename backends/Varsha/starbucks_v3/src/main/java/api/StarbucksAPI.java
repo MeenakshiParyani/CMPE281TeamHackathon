@@ -32,6 +32,7 @@ public class StarbucksAPI {
 
     public static void startOrderProcessor() {
         StarbucksBarista barista = new StarbucksBarista( orderQueue ) ;
+        System.out.println("Starting barista");
         new Thread(barista).start();
     }
 
