@@ -17,7 +17,7 @@
 	<script src="angularjs/home.js"></script>
   </head>
 
-  <body ng-app="home" style="background: #F7F7F7">
+  <body ng-app="home" ng-controller="welcomePageCtrl" style="background: #F7F7F7">
 
     <nav class="navbar navbar-default">
       <div class="container-fluid">
@@ -35,22 +35,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Options <span class="caret"></span></a> <ul class="dropdown-menu">
-                <li><a href="#optionOne">Option 1 <span class="sr-only">(current)</span></a></li>
+              <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-model="store_location" value="Location"><span class="glyphicon glyphicon-map-marker" aria-hidden="true">&nbsp;</span> {{store_location}} <span class="caret"></span></a> <ul class="dropdown-menu">
+                <li ng-click= "onStoreClick('Fremont')"><a href="">Fremont <span class="sr-only">(current)</span></a></li>
                  <li role="separator" class="divider"></li>
-                <li><a href="#optionTwo">Option 2</a></li>
+                <li ng-click= "onStoreClick('Sunnyvale')"><a href="">Sunnyvale</a></li>
                  <li role="separator" class="divider"></li>
-                <li><a href="#optionThree">Option 3</a></li>
-                 <li role="separator" class="divider"></li>
-                <li><a href="#optionFour">Option 4</a></li>
+                <li ng-click= "onStoreClick('San Jose')"><a href="">San Jose</a></li>
               </ul>
             </li>
           </ul>
       
           <ul class="nav navbar-nav navbar-right">
-           	<li><a href="#additionalOption"> <span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;</span> Additional Option</a></li>
+           	<li><a href="#myBag"> <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> My Bag</a></li>
           </ul>
           
         </div>
