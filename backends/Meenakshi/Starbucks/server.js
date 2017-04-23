@@ -19,7 +19,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('X-HTTP-Method-Override')); 
 
 var routes = require('./app/routes/routes');
-app.use('/api', routes);
+app.get('*', routes);
+app.post('*', routes);
+app.put('*', routes);
+app.delete('*', routes);
 
 app.listen(port);               
                 
