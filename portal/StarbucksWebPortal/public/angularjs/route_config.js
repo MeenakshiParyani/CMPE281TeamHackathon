@@ -54,6 +54,6 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 starbucks.run([ '$state','$rootScope', function($state,$rootScope) {
 	$state.transitionTo('home');
 	$rootScope.store_location  = "Location" ;
-	$rootScope.bagItems = [];
+	$rootScope.order.bagItems = [];
 
 } ]);

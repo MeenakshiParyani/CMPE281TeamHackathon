@@ -4,7 +4,7 @@ angular.module('starbucks').controller('orderCtrl', [ '$rootScope', '$scope', '$
 	$scope.addToCart = function () {
 
 		console.log("Bev type :" + $scope.orderItem.bevName) ;
-		$rootScope.bagItems.push($scope.orderItem)
+		$rootScope.order.bagItems.push($scope.orderItem)
 		resetOrderItem () ;
 		$state.go ( 'home' ) ;
 
