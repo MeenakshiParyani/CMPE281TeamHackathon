@@ -19,7 +19,7 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 		
 	});
 	$stateProvider.state('my_bag', {
-		url : '/',
+		url : '/my_bag',
 		views : {
 			'header' : {
 				templateUrl : 'templates/header.html',
@@ -28,6 +28,21 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 			'content' : {
 				templateUrl : 'templates/my_bag.html',
 				controller : 'myBagCtrl'
+			}
+		}
+		
+	});
+
+	$stateProvider.state('payment', {
+		url : '/payment',
+		views : {
+			'header' : {
+				templateUrl : 'templates/header.html',
+				controller : 'headerCtrl'
+			},
+			'content' : {
+				templateUrl : 'templates/payment_page.html',
+				controller : 'paymentCtrl'
 			}
 		}
 		
