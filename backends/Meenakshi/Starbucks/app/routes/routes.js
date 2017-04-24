@@ -6,9 +6,10 @@ var router = express.Router();
 var order = require('./../models/Order');
 
  //Get all Orders for a customer
-router.get('/orders/:customerName', function(req, res) {
-    console.log(req.params.customerName);
-    order.find({ customerName : req.params.customerName }, function(err, orders) {
+router.get('/orders', function(req, res) {
+    //console.log(req.params.customerName);
+    // order.find({ customerName : req.params.customerName }, function(err, orders) {
+       order.find(function(err, orders) {
         if (err)
             res.send(err);
         res.json({'orders' : orders}); // return all orders
@@ -16,14 +17,14 @@ router.get('/orders/:customerName', function(req, res) {
 });
 
  //Place an Order
-router.post('/order/place', function(req, res) {
+router.post('/order', function(req, res) {
     var newOrder = new order(req.body);
     console.log(newOrder);
-    newOrder.save(function(err) {
+    newOrder.save(function(err, order) {
         if(err)
             message = {"error": true, "message" : "Error Processing the Order"};
         else
-            message = {"error": false, "message" : "Order Placed Successfully"};
+            message = {"error": false, "message" : "Order Placed Successfully", "orderId" : order._id};
         res.json(message);
     });
 });
@@ -32,6 +33,7 @@ router.post('/order/place', function(req, res) {
 router.put('/order/:orderId', function(req, res){
     console.log(req.params.orderId);
     order.findOneAndUpdate({ _id : req.params.orderId }, req.body, function(err, order){
+        console.log('edited order' + order);
         if(err)
             message =  { "error" : true, "message": err};
         else
@@ -48,6 +50,19 @@ router.delete('/order/:orderId', function(req, res){
             message =  { "error" : true, "message": err};
         else
             message =  { "error" : false, "message": "Order Cancelled Successfully" };
+        res.json(message);
+    });
+
+});
+
+// Pay for an Order
+router.put('/order/:orderId/pay', function(req, res){
+    console.log(req.params.orderId);
+    order.findOneAndUpdate({ _id: req.params.orderId }, {"status" : "Paid"}, function(err, order){
+        if(err)
+            message =  { "error" : true, "message": err};
+        else
+            message =  { "error" : false, "message": "Order Paid Successfully", "status" : "Paid" };
         res.json(message);
     });
 

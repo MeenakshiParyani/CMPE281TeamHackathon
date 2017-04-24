@@ -1,8 +1,11 @@
 package middleware
 
 import (
+	"crypto/tls"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"net"
+	"strings"
 	"ttpham0111/app/models"
 )
 
@@ -12,7 +15,30 @@ type MgoDatastore struct {
 }
 
 func NewMgoDatastore(dbUrl string) *MgoDatastore {
-	s, err := mgo.Dial(dbUrl)
+	var s *mgo.Session
+	var err error
+	useSSL := false
+
+	sslFlag := "ssl=true"
+	if strings.Contains(dbUrl, sslFlag) {
+		dbUrl = strings.Replace(dbUrl, sslFlag, "", 1)
+		useSSL = true
+	}
+
+	tlsConfig := &tls.Config{}
+	dialInfo, err := mgo.ParseURL(dbUrl)
+	if err != nil {
+		panic(err)
+	}
+
+	if useSSL {
+		dialInfo.DialServer = func(addr *mgo.ServerAddr) (net.Conn, error) {
+			conn, err := tls.Dial("tcp", addr.String(), tlsConfig)
+			return conn, err
+		}
+	}
+
+	s, err = mgo.DialWithInfo(dialInfo)
 	if err != nil {
 		panic(err)
 	}

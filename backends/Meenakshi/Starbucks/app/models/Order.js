@@ -8,7 +8,7 @@ var orderSchema = new schema({
 	location : { type : String },
 	items: [{
 	  	name     : { type : String },
-	  	quantity : { type : Number },
+	  	qty : { type : Number },
 	  	milk     : { type : String },
 	  	size     : { type : String }
     }],
