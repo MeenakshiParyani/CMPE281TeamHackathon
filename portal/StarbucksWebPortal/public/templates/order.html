@@ -1,6 +1,6 @@
 <div ng-controller ="orderCtrl">
-	<h1>Order page</h1>
-	<form class="form-horizontal">
+  <h1>Order page</h1>
+  <form class="form-horizontal">
 <fieldset>
 
 <!-- Form Name -->
@@ -8,23 +8,15 @@
 
 <!-- Button Drop Down -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="buttondropdown">Beverage</label>
+  <label class="col-md-4 control-label">Beverage</label>
   <div class="col-md-4">
-    <div class="input-group">
-      <input id="buttondropdown" name="buttondropdown" class="form-control" placeholder="Select Beverage" type="text" required="">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          Beverage
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <li><a href="#">Caffe Latte</a></li>
-          <li><a href="#">Chai Latte</a></li>
-          <li><a href="#">Capuccino</a></li>
-          <li><a href="#">Mocha</a></li>
-        </ul>
-      </div>
-    </div>
+    <select ng-model = "orderItem.bevName">
+          <option class="placeholder" selected disabled value="">Choose here</option>
+          <option value = "Caffe Latte">Caffe Latte</option>
+          <option value = "Chai Latte">Chai Latte</option>
+          <option value = "Capuccino">Capuccino</option>
+          <option value = "Mocha">Mocha</option>
+    </select>
   </div>
 </div>
 
@@ -32,7 +24,7 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="qty">Quantity</label>  
   <div class="col-md-4">
-  <input id="qty" name="qty" type="text" placeholder="enter quantity" class="form-control input-md" required="">
+  <input id="qty" name="qty" type="text" placeholder="enter quantity" class="form-control input-md" required="" ng-model ="orderItem.qty" ng-init = "orderItem.qty = 0 ;" ng-click = "orderItem.qty = '';" >
     
   </div>
 </div>
@@ -41,20 +33,14 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="milk">Milk</label>
   <div class="col-md-4">
-    <div class="input-group">
-      <input id="milk" name="milk" class="form-control" placeholder="select milk type" type="text" required="">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          Milk Type
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <li><a href="#">Whole Milk</a></li>
-          <li><a href="#">Half and Half</a></li>
-          <li><a href="#">Organic</a></li>
-        </ul>
-      </div>
-    </div>
+
+
+    <select ng-model = "orderItem.milkType">
+      <option class="placeholder" selected disabled value="">Choose here</option>
+      <option value = "Whole Milk">Whole Milk</option>
+      <option value = "Half and Half">Half and Half</option>
+      <option value = "Organic">Organic</option>
+    </select>
   </div>
 </div>
 
@@ -62,44 +48,12 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="size">Size</label>
   <div class="col-md-4">
-    <div class="input-group">
-      <input id="size" name="size" class="form-control" placeholder="select cup size" type="text" required="">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          size
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-          <li><a href="#">Small</a></li>
-          <li><a href="#">Medium</a></li>
-          <li><a href="#">Large</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="name">Name</label>  
-  <div class="col-md-4">
-  <input id="name" name="name" type="text" placeholder="enter your name" class="form-control input-md" required="">
-    
-  </div>
-</div>
-
-<!-- Multiple Radios (inline) -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="mode">Order Mode</label>
-  <div class="col-md-4"> 
-    <label class="radio-inline" for="mode-0">
-      <input type="radio" name="mode" id="mode-0" value="in" checked="checked">
-      In Store
-    </label> 
-    <label class="radio-inline" for="mode-1">
-      <input type="radio" name="mode" id="mode-1" value="out">
-      Take Out
-    </label>
+     <select ng-model = "orderItem.cupSize">
+      <option class="placeholder" selected disabled value="">Choose here</option>
+      <option value = "Small">Small</option>
+      <option value = "Medium">Medium</option>
+      <option value = "Large">Large</option>
+    </select>    
   </div>
 </div>
 
@@ -107,7 +61,7 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="order"></label>
   <div class="col-md-4">
-    <button id="order" name="order" class="btn btn-primary">Place Order</button>
+    <button id="order" name="order" class="btn btn-primary" ng-click = "addToCart();">Add To Cart</button>
   </div>
 </div>
 

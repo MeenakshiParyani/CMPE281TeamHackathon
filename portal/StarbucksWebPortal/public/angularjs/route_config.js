@@ -12,13 +12,13 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 				controller : 'headerCtrl'
 			},
 			'content' : {
-				templateUrl : 'templates/welcome_page.html',
-				controller : 'welcomeCtrl'
+				templateUrl : 'templates/order.html',
+				controller : 'orderCtrl'
 			}
 		}
 		
 	});
-	$stateProvider.state('order', {
+	$stateProvider.state('my_bag', {
 		url : '/',
 		views : {
 			'header' : {
@@ -26,8 +26,8 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 				controller : 'headerCtrl'
 			},
 			'content' : {
-				templateUrl : 'templates/order.html',
-				controller : 'orderCtrl'
+				templateUrl : 'templates/my_bag.html',
+				controller : 'myBagCtrl'
 			}
 		}
 		
@@ -39,5 +39,6 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 starbucks.run([ '$state','$rootScope', function($state,$rootScope) {
 	$state.transitionTo('home');
 	$rootScope.store_location  = "Location" ;
+	$rootScope.bagItems = [];
 
 } ]);
