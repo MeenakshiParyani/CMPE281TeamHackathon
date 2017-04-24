@@ -34,7 +34,7 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 	});
 
 	$stateProvider.state('payment', {
-		url : '/payment',
+		url : '/my_bag',
 		views : {
 			'header' : {
 				templateUrl : 'templates/header.html',
@@ -54,6 +54,6 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 starbucks.run([ '$state','$rootScope', function($state,$rootScope) {
 	$state.transitionTo('home');
 	$rootScope.store_location  = "Location" ;
-	$rootScope.order.bagItems = [];
+	$rootScope.bagItems = [];
 
 } ]);
