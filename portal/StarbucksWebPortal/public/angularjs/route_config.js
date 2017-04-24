@@ -12,12 +12,28 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 				controller : 'headerCtrl'
 			},
 			'content' : {
+				templateUrl : 'templates/welcome.html',
+				controller : 'welcomeCtrl'
+			}
+		}
+		
+	});
+
+	$stateProvider.state('start_order', {
+		url : '/order',
+		views : {
+			'header' : {
+				templateUrl : 'templates/header.html',
+				controller : 'headerCtrl'
+			},
+			'content' : {
 				templateUrl : 'templates/order.html',
 				controller : 'orderCtrl'
 			}
 		}
 		
 	});
+
 	$stateProvider.state('my_bag', {
 		url : '/my_bag',
 		views : {

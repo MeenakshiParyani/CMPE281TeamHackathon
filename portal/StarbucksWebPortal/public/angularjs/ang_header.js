@@ -16,6 +16,18 @@ angular.module('starbucks').controller('headerCtrl', [ '$rootScope', '$scope', '
 
 	}
 
+	$scope.startOrder = function () {
+
+		if( $scope.store_location != null && $scope.store_location != '' && $scope.store_location != 'Location'){
+
+			$state.go ( 'start_order' ) ;
+		} else {
+
+			alert ( "Choose store location to start order !!!" ) ;
+		}
+
+	}
+
 
 
 
