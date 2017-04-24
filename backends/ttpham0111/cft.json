@@ -40,6 +40,12 @@
       "NoEcho": true
     },
 
+    "DockerImage": {
+      "Description": "DockerHub Image",
+      "Type": "String",
+      "Default": "ttpham0111/go-restbucks"
+    },
+
     "DockerUser": {
       "Description": "DockerHub Username",
       "Type": "String",
@@ -121,8 +127,8 @@
                   "start() {", "\n",
                   "    docker login -u ", {"Ref": "DockerUser"}, " -p ", {"Ref": "DockerPassword"}, "\n",
                   "    docker rm -f gorest", "\n",
-                  "    docker pull ttpham0111/go-restbucks", "\n",
-                  "    docker run --name gorest -p 80:5000 -d -e DB_URL=\"", {"Ref": "MongoDBURL"}, "\" ttpham0111/go-restbucks", "\n",
+                  "    docker pull ", {"Ref": "DockerImage"}, "\n",
+                  "    docker run --name gorest -p 80:5000 -d -e DB_URL=\"", {"Ref": "MongoDBURL"}, "\" ", {"Ref": "DockerImage"}, "\n",
                   "}", "\n",
                   "\n",
                   "stop() {", "\n",
