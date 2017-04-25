@@ -1,0 +1,48 @@
+<div>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+          data-toggle="collapse" data-target="navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href ng-click="$ctrl.setState('home')">
+          <img src="https://www.starbucks.com/static/images/favicon.ico" />
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav navbar-right">
+          <button type="button" class="btn btn-success" ng-click="$ctrl.setState('order')">Order</button>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown text-capitalize">
+            <a href class="dropdown-toggle" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-map-marker">
+                {{ $ctrl.location }} <span class="caret"></span>
+              </span>
+            </a>
+
+            <ul class="dropdown-menu">
+              <li ng-click="$ctrl.setLocation('Fremont')"><a href>Fremont</a></li>
+              <li ng-click="$ctrl.setLocation('Sunnyvale')"><a href>Sunnyvale</a></li>
+              <li ng-click="$ctrl.setLocation('San Jose')"><a href>San Jose</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href ng-click="$ctrl.setState('bag')">
+              <span class="glyphicon glyphicon-lock"></span>
+              <span class="badge" style="background-color: #008458">{{ $ctrl.numPendingItems }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

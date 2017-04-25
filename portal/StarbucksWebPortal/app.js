@@ -14,14 +14,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 
 // Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/app')));
 
 // API route
 app.use('/api', api);
 
 // Serve static files on all other routes
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.sendFile(path.join(__dirname, 'public/app/index.html'));
 });
 
 // Start server

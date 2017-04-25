@@ -24,8 +24,7 @@ router.get('/order/:orderID', function(req, res) {
 
 router.post('/order', function(req, res) {
   var options = {
-    //url: process.env.GATEWAY_URL + '/order',
-    url : 'http://ec2-54-193-51-136.us-west-1.compute.amazonaws.com:80/order',
+    url: process.env.GATEWAY_URL + '/order',
     method: 'POST',
     json: req.body
   };
@@ -37,12 +36,9 @@ router.post('/order', function(req, res) {
 });
 
 router.post('/order/:orderID/pay', function(req, res) {
-  console.log('reached api');
   var options = {
-    //url: process.env.GATEWAY_URL + '/order/' + req.params.orderID + '/pay',
-    url: 'http://ec2-54-193-51-136.us-west-1.compute.amazonaws.com:80/order/' + req.params.orderID + '/pay',
-    //method: 'POST', need to decide on this
-    method: 'PUT',
+    url: process.env.GATEWAY_URL + '/order/' + req.params.orderID + '/pay',
+    method: 'POST',
     json: req.body
   };
 
