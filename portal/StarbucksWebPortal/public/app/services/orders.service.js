@@ -37,7 +37,13 @@ angular.module('starbucks').service('OrdersService', function($http) {
       return $http.post('/api/order/' + service.orderId + '/pay').then(function() {
         service.orderId = '';
       });
-    }    
+    },
+
+    getAllOrders: function() {
+      return $http.get('/api/orders').then(function(res) {
+        return res.data;
+      });
+    }   
   };
 
   return service;

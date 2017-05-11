@@ -8,13 +8,6 @@ router.get('/', function(req, res) {
 });
 
 
-router.get('/orders', function(req, res) {
-  request(process.env.GATEWAY_URL + '/orders', function(err, r, body) {
-    if (err) { throw err; }
-    res.append('Content-Type', 'application/json').status(r.statusCode).send(body);
-  });
-});
-
 router.get('/order/:orderID', function(req, res) {
   request(process.env.GATEWAY_URL + '/order/' + req.params.orderID, function(err, r, body) {
     if (err) { throw err; }
@@ -63,6 +56,14 @@ router.put('/order/:orderID', function(req, res) {
 
 router.delete('/order/:orderID', function(req, res) {
   request.delete(process.env.GATEWAY_URL + '/order/' + req.params.orderID, function(err, r, body) {
+    if (err) { throw err; }
+    res.append('Content-Type', 'application/json').status(r.statusCode).send(body);
+  });
+});
+
+router.get('/orders', function(req, res) {
+  request.get("http://ec2-54-215-240-54.us-west-1.compute.amazonaws.com:8080"
+   + '/orders/', function(err, r, body) {
     if (err) { throw err; }
     res.append('Content-Type', 'application/json').status(r.statusCode).send(body);
   });
