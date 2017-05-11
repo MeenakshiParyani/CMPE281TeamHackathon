@@ -1,5 +1,5 @@
 angular.module('starbucks').component('orders', {
-  templateUrl: 'component/orders/orders.component.html',
+  templateUrl: 'components/orders/orders.component.html',
 
   controller: ['OrdersService',
     function OrdersController(OrdersService) {
