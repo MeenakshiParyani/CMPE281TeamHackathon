@@ -1,0 +1,36 @@
+<div>
+  <div class="col-md-8">
+    <div class="panel-group">
+      <div>
+        <h2>Pay with</h2>
+        <div class="panel panel-default">
+          <table class="table">
+            <tr>
+              <td>
+                <label>Card Number    &nbsp;&nbsp;&nbsp;</label>
+                <input type="text" ng-model="$ctlr.card.number" placeholder="Card Number"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <label>Expiration Date&nbsp;</label>
+                <input type="text" ng-model="$ctlr.card.exp" placeholder="MM/YYYY" />
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <label>Security Code&nbsp;&nbsp;&nbsp;</label>
+                <input type="number" ng-model="$ctlr.card.security" placeholder="DDD" />
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-success" ng-click="confirm();">Confirm and Pay</button>
+    </div>
+  </div>
+</div>

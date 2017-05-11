@@ -26,6 +26,11 @@ starbucks.config(function($stateProvider, $urlRouterProvider, $locationProvider)
     component: 'pay'
   });
 
+  $stateProvider.state('orders', {
+    url: '/orders',
+    component: 'orders'
+  });
+
   $urlRouterProvider.otherwise('/');
 });
 
