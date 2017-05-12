@@ -39,6 +39,7 @@ angular.module('starbucks').service('OrdersService', function($http) {
     },
 
     removeOrder: function(orderId) {
+      console.log("Order ID to be removed : " + orderId );
       return $http.delete('/api/order/' + orderId);
     },
 
@@ -48,9 +49,9 @@ angular.module('starbucks').service('OrdersService', function($http) {
       });
     },
 
-    getAllOrders: function() {
-      return $http.get('/api/orders').then(function(res) {
-        return res.data;
+    getAllOrders: function(callback) {
+     $http.get('/api/orders').then(function(res) {
+        callback(res.data.orders || res.data);
       });
     }   
   };
