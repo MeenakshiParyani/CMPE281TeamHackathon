@@ -1,48 +1,31 @@
-<!-- <div>
-  <h1>Orders</h1>
-  <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-condensed table-hover table-bordered">
-        <thead>
-          <tr class="active">
-            <th>
-              #
-            </th>
-            <th>
-              Order Details
-            </th>
-            <th>
-              Amount
-            </th>
-            <th>
-              Status
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="active" ng-repeat-start="order in orders">
-            <td>
-              1
-            </td>
-            <td>
-              {{orders.indexOf(order)}}
-            </td>
-            <td>
-              <span>Name : {{order.items.name}} </span>
-              <span>Quantity : {{order.items.qty}} </span>
-              <span>Milk : {{order.items.milk}} </span>
-              <span>Name : {{order.items.size}} </span>
-            </td>
-            <td>
-              {{order.status}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<div class = "container">
+  
+  <div class="panel-group">
+    <div class= "row">
+      <div class="col-md-12" ng-repeat = "order in orders">
+        <div class="panel panel-default">
+          <div class="panel-body">
+              
+            <label>Order Status: {{order.status}}</label>
+            <button type="button" class="close" aria-label="Close" ng-click="$ctrl.removeOrder(order._id)">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+            <table class="table table-hover table-striped">
+                <tbody>
+                  <tr class="active" ng-repeat="item in order.items">
+                    
+                    <td><span style="display: inline-block; margin-top: 10px;"><strong>Name: </strong> {{ item.name }}</span><br/><span style="display: inline-block; margin-top: 10px;"><strong>Quantity:</strong>  {{ item.qty }}</span></td>
+
+                    <td><span style="display: inline-block; margin-top: 10px;"><strong>Milk:</strong> {{ item.milk }}</span><br/><span style="display: inline-block; margin-top: 10px;"><strong>Size:</strong>  {{ item.size }}</span></td>
+                  </tr>
+                </tbody>
+             </table>
+
+            </div>  
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div> -->
-
-<h1>Orders</h1>
+  
