@@ -22,6 +22,11 @@ angular.module('starbucks').service('OrdersService', function($http) {
       service.numPendingItems++;
     },
 
+    removeItem: function(i) {
+      service.pendingItems.splice(i, 1);
+      service.numPendingItems--;
+    },
+
     placeOrder: function(mode, customerName) {
       return $http.post('/api/order', {
         location: mode,
@@ -31,6 +36,10 @@ angular.module('starbucks').service('OrdersService', function($http) {
         service.orderId = res.orderId;
         service.pendingItems = []; 
       });
+    },
+
+    removeOrder: function(orderId) {
+      return $http.delete('/api/order/' + orderId);
     },
 
     pay: function() {

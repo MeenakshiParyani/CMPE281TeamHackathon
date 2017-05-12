@@ -10,6 +10,10 @@ angular.module('starbucks').component('bag', {
       this.orderMode = '';
       this.customerName = '';
 
+      this.removeItem = function(i) {
+        OrdersService.removeItem(i);
+      };
+
       this.placeOrder = function() {
         // TODO: Form validation
 

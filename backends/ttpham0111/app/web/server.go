@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
@@ -17,5 +18,6 @@ func StartServer(datastore middleware.Datastore, numBaristas int) {
 	}
 
 	router := NewRouter(datastore, queue)
+	fmt.Println("Starting server on port 5000")
 	log.Fatal(http.ListenAndServe(":5000", router))
 }

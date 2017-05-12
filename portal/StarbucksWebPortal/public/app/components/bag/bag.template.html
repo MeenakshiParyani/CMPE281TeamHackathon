@@ -4,9 +4,10 @@
     <div class="panel-body"> Cup Size: {{ item.size }}</div>
     <div class="panel-body"> Milk Type: {{ item.milk }}</div>
     <div class="panel-body"> Quantity: {{ item.qty }}</div>
+    <div class="panel-body"> <a href ng-click="$ctrl.removeItem($index)">Remove</a></div>
   </div>
 
-  <div class="panel panel-default" ng-if=" items.length !== 0">
+  <div class="panel panel-default" ng-if="items.length !== 0">
     <form class="form-horizontal">
       <fieldset>
         <div class="form-group">
