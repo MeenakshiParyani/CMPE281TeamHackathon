@@ -1,22 +1,22 @@
 <div>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
+
+        <a class="navbar-brand" href ng-click="$ctrl.setState('home')">
+          <img style="width:48px; height:48px; margin-top: -15px" alt="Brand" src="assets/images/starbucks_logo.png">
+        </a>
+
         <button type="button" class="navbar-toggle collapsed"
           data-toggle="collapse" data-target="navbar">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href ng-click="$ctrl.setState('home')">
-          <img src="https://www.starbucks.com/static/images/favicon.ico" />
-        </a>
+     
       </div>
 
       <div class="collapse navbar-collapse" id="navbar">
-        <ul class="nav navbar-nav navbar-right">
-          <button type="button" class="btn btn-success" ng-click="$ctrl.setState('order')">Order</button>
-        </ul>
 
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown text-capitalize">
@@ -32,21 +32,30 @@
               <li ng-click="$ctrl.setLocation('San Jose')"><a href>San Jose</a></li>
             </ul>
           </li>
-        </ul>
 
-        <ul class="nav navbar-nav navbar-right">
           <li>
             <a href ng-click="$ctrl.setState('bag')">
               <span class="glyphicon glyphicon-lock"></span>
               <span class="badge" style="background-color: #008458">{{ $ctrl.numPendingItems }}</span>
             </a>
           </li>
+
+          <li>
+            <a href ng-click="$ctrl.setState('order')">
+             Order
+            </a>
+          </li>
+
+           <li>
+            <a href ng-click="$ctrl.setState('orders')">
+              Orders
+            </a>
+          </li>
+
         </ul>
+        
       </div>
 
-      <ul class="nav navbar-nav navbar-right">
-          <button type="button" class="btn btn-warning" ng-click="$ctrl.setState('orders')">See Orders</button>
-      </ul>
     </div>
   </nav>
 </div>
