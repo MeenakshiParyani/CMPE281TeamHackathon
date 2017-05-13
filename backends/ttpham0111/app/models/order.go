@@ -3,11 +3,11 @@ package models
 import "gopkg.in/mgo.v2/bson"
 
 const (
-	OrderPlaced = iota
-	OrderPaid
-	OrderPreparing
-	OrderServed
-	OrderCollected
+	OrderPlaced    = "Placed"
+	OrderPaid      = "Paid"
+	OrderPreparing = "Preparing"
+	OrderServed    = "Served"
+	OrderCollected = "Colleged"
 )
 
 type Item struct {
@@ -18,12 +18,12 @@ type Item struct {
 }
 
 type Order struct {
-	ID       bson.ObjectId     `json:"id" bson:"_id,omitempty"`
+	ID       bson.ObjectId     `json:"_id" bson:"_id,omitempty"`
 	Location string            `json:"location"`
 	Items    []Item            `json:"items"`
 	Links    map[string]string `json:"links"`
 	Message  string            `json:"message"`
-	Status   int               `json:"-"`
+	Status   string            `json:"status"`
 }
 
 type OrderRequest struct {
@@ -31,7 +31,7 @@ type OrderRequest struct {
 	Items    []Item `json:"items"`
 }
 
-func (order *Order) SetOrderStatus(status int, uri string) {
+func (order *Order) SetOrderStatus(status string, uri string) {
 	switch status {
 	case OrderPlaced:
 		order.Status = OrderPlaced

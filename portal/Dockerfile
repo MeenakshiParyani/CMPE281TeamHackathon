@@ -10,4 +10,8 @@ RUN npm install
 
 COPY StarbucksWebPortal /portal
 
+# Environmental variables set by Heroku
+ENV PORT $PORT
+ENV GATEWAY_URL $GATEWAY_URL
+
 CMD ["npm", "start"]

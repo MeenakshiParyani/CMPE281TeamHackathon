@@ -1,0 +1,24 @@
+.drinks-list {
+  max-height: 250px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.drink:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+.drink.active:hover,
+.drink.active {
+  background-color: #cddad5;
+}
+
+.fa-coffee {
+  color: #777;
+}
+.fa-coffee:hover {
+  color: #000;
+}
+.fa-coffee.active {
+  color: #006341;
+}

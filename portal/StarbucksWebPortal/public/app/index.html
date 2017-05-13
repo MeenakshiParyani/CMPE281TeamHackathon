@@ -2,35 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <title>Starbucks</title>
+    <link rel="shortcut icon" href="https://www.starbucks.com/static/images/favicon.ico">
+    <title>RESTbucks</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="main.css" />
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-rc.1/angular-ui-router.min.js"></script>
+    <!-- Bootstrap v4 -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-    <script src="app.module.js"></script>
-    <script src="services/orders.service.js"></script>
-    <script src="components/header/header.component.js"></script>
-    <script src="components/home/home.component.js"></script>
-    <script src="components/order/order.component.js"></script>
-    <script src="components/bag/bag.component.js"></script>
-    <script src="components/pay/pay.component.js"></script>
-    <script src="components/orders/orders.component.js"></script>
-  </head> 
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
-  <body ng-app="starbucks">
-    <div class="container">
-      <header></header>
+    <!-- Tether -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
-      <ui-view></ui-view>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- VueJS -->
+    <script src="//unpkg.com/vue@2.3.0/dist/vue.js"></script>
+    <script src="//unpkg.com/vue-router@2.5.2/dist/vue-router.js"></script>
+
+    <!-- Services -->
+    <script src="services/orders.js"></script>
+
+    <!-- Components -->
+    <link rel="stylesheet" href="components/orders/order-form/order-item-form/order-item-form.css">
+    <script src="components/orders/order-form/order-item-form/order-item-form.js"></script>
+
+    <script src="components/orders/order-form/order-item-list/order-item-list.js"></script>
+
+    <script src="components/orders/order-form/order-form.js"></script>
+
+    <script src="components/orders/orders-list/orders-list.js"></script>
+
+    <link rel="stylesheet" href="components/orders/orders.css">
+    <script src="components/orders/orders.js"></script>
+
+    <!-- Router -->
+    <script src="router.js"></script>
+  </head>
+  
+  <body>
+    <div id="app">
+      <router-view></router-view>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+      new Vue({
+        router: router
+      }).$mount('#app');
+    </script>
   </body>
 </html>

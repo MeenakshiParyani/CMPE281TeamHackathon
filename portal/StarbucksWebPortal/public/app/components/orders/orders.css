@@ -1,0 +1,10 @@
+#orders {
+  width: 500px;
+  height: auto;
+}
+
+.btn-success,
+.btn-success.active,
+.btn-success:active {
+  background-color: #006341;
+}
