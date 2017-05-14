@@ -8,16 +8,16 @@ router.get('/', function(req, res) {
 });
 
 
-router.get(':location/order/:orderID', function(req, res) {
-  request(process.env.GATEWAY_URL + '/' + req.params.location + '/order/' + req.params.orderID, function(err, r, body) {
+router.get('/order/:orderID', function(req, res) {
+  request(process.env.GATEWAY_URL + '/' + req.query.location + '/order/' + req.params.orderID, function(err, r, body) {
     if (err) { throw err; }
     res.append('Content-Type', 'application/json').status(r.statusCode).send(body);
   });
 });
 
-router.post(':location/order', function(req, res) {
+router.post('/order', function(req, res) {
   var options = {
-    url: process.env.GATEWAY_URL + '/' + req.params.location + '/order',
+    url: process.env.GATEWAY_URL + '/' + req.query.location + '/order',
     method: 'POST',
     json: req.body
   };
@@ -28,9 +28,9 @@ router.post(':location/order', function(req, res) {
   });
 });
 
-router.post(':location/order/:orderID/pay', function(req, res) {
+router.post('/order/:orderID/pay', function(req, res) {
   var options = {
-    url: process.env.GATEWAY_URL + '/' + req.params.location + '/order/' + req.params.orderID + '/pay',
+    url: process.env.GATEWAY_URL + '/' + req.query.location + '/order/' + req.params.orderID + '/pay',
     method: 'POST',
     json: req.body
   };
@@ -41,9 +41,9 @@ router.post(':location/order/:orderID/pay', function(req, res) {
   });
 });
 
-router.put(':location/order/:orderID', function(req, res) {
+router.put('/order/:orderID', function(req, res) {
   var options = {
-    url: process.env.GATEWAY_URL + '/' + req.params.location + '/order/' + req.params.orderID,
+    url: process.env.GATEWAY_URL + '/' + req.query.location + '/order/' + req.params.orderID,
     method: 'PUT',
     json: req.body
   };
@@ -54,15 +54,16 @@ router.put(':location/order/:orderID', function(req, res) {
   });
 });
 
-router.delete(':location/order/:orderID', function(req, res) {
-  request.delete(process.env.GATEWAY_URL + '/' + req.params.location + '/order/' + req.params.orderID, function(err, r, body) {
+router.delete('/order/:orderID', function(req, res) {
+  request.delete(process.env.GATEWAY_URL + '/' + req.query.location + '/order/' + req.params.orderID, function(err, r, body) {
     if (err) { throw err; }
     res.append('Content-Type', 'application/json').status(r.statusCode).send(body);
   });
 });
 
-router.get(':location/orders', function(req, res) {
-  request.get(process.env.GATEWAY_URL + '/' + req.params.location + '/orders', function(err, r, body) {
+router.get('/orders', function(req, res) {
+  console.log(process.env.GATEWAY_URL + '/' + req.query.location + '/orders');
+  request.get(process.env.GATEWAY_URL + '/' + req.query.location + '/orders', function(err, r, body) {
     if (err) { throw err; }
     res.append('Content-Type', 'application/json').status(r.statusCode).send(body);
   });

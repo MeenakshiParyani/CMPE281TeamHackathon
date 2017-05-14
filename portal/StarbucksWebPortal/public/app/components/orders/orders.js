@@ -67,8 +67,8 @@ Vue.component('rb-orders', {
     getOrders: function() {
       var self = this;
 
-      return jQuery.get('/api/' + this.location.code +'/orders', function(orders) {
-        self.orders = orders;
+      return jQuery.get('/api/orders?location=' + this.location.code, function(res) {
+        self.orders = res.orders || res;
       });
     },
 
@@ -77,7 +77,7 @@ Vue.component('rb-orders', {
 
       jQuery.ajax({
         type: 'POST',
-        url: '/api/' + this.location.code +'/order',
+        url: '/api/order?location=' + this.location.code,
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(order),
 
@@ -93,7 +93,7 @@ Vue.component('rb-orders', {
 
       jQuery.ajax({
         type: 'DELETE',
-        url: '/api/order/' + orderId,
+        url: '/api/order/' + orderId + '?location=' + this.location.code,
 
         success: function() {
           self.getOrders();

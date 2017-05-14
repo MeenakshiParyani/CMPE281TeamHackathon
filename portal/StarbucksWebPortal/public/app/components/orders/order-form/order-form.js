@@ -81,7 +81,7 @@ Vue.component('rb-order-form', {
     placeOrder: function() {
       var order = {
         customerName: this.customerName,
-        mode: this.orderMode,
+        location: this.orderMode,
         items: this.items
       };
 

@@ -34,32 +34,395 @@
       "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
     },
 
-    "MongoDBURL" : {
-      "Description": "Mongo DB Cluster URL.",
-      "Type": "String",
-      "NoEcho": true
-    },
-
     "DockerImage": {
       "Description": "DockerHub Image",
       "Type": "String",
       "Default": "ttpham0111/go-restbucks"
-    },
-
-    "DockerUser": {
-      "Description": "DockerHub Username",
-      "Type": "String",
-      "NoEcho": true
-    },
-
-    "DockerPassword": {
-      "Description": "DockerHub Password",
-      "Type": "String",
-      "NoEcho": true
     }
   },
 
   "Resources": {
+    "MongoReplica1": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": {"Ref": "InstanceType"},
+        "SecurityGroups": [{"Ref": "MongoSecurityGroup"}],
+        "KeyName": {"Ref": "KeyName"},
+        "ImageId": {"Ref": "ImageId"},
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+             "#!/bin/bash -xe\n",
+             "yum update aws-cfn-bootstrap\n",
+
+             "# Install the files and packages from the metadata\n",
+             "/opt/aws/bin/cfn-init ",
+             "         --stack ", { "Ref" : "AWS::StackName" },
+             "         --resource MongoReplica1 ",
+             "         --configsets Install ",
+             "         --region ", { "Ref" : "AWS::Region" }, "\n",
+
+             "# Signal the status from cfn-init\n",
+             "/opt/aws/bin/cfn-signal -e $? ",
+             "         --stack ", { "Ref" : "AWS::StackName" },
+             "         --resource MongoReplica1 ",
+             "         --region ", { "Ref" : "AWS::Region" }, "\n"
+        ]]}}
+      },
+
+      "CreationPolicy" : {
+        "ResourceSignal" : {
+          "Timeout" : "PT5M"
+        }
+      },
+
+      "Metadata" : {
+        "Comment1" : "Configure the bootstrap helpers to install Docker and start Mongo.",
+
+        "AWS::CloudFormation::Init" : {
+          "configSets": {
+            "Install": ["docker", "mongo"]
+          },
+          "docker": {
+            "packages" : {
+              "yum" : {
+                "docker": []
+              }
+            },
+            "services": {
+              "sysvinit": {  
+                "docker": {
+                  "enabled": true,
+                  "ensureRunning": true
+                }
+              }
+            }
+          },
+          "mongo": {
+            "files" : {
+              "/etc/init.d/mongo": {
+                "content" : {"Fn::Join": ["", [
+                  "#!/bin/bash", "\n",
+                  "# chkconfig: 2345 20 80", "\n",
+                  "", "\n",
+                  "# Source function library.", "\n",
+                  ". /etc/init.d/functions", "\n",
+                  "\n",
+                  "start() {", "\n",
+                  "    docker rm -f mongo", "\n",
+                  "    docker run --name mongo -p 27017:27017 -d mongo --replSet rs0", "\n",
+                  "}", "\n",
+                  "\n",
+                  "stop() {", "\n",
+                  "    docker rm -f mongo ", "\n",
+                  "}", "\n",
+                  "\n",
+                  "case \"$1\" in ", "\n",
+                  "    start)", "\n",
+                  "       start", "\n",
+                  "       ;;", "\n",
+                  "    stop)", "\n",
+                  "       stop", "\n",
+                  "       ;;", "\n",
+                  "    restart)", "\n",
+                  "       stop", "\n",
+                  "       start", "\n",
+                  "       ;;", "\n",
+                  "    *)", "\n",
+                  "       echo \"Usage: $0 {start|stop|restart}\"", "\n",
+                  "esac", "\n",
+                  "\n",
+                  "exit 0", "\n",
+                  "\n"
+                ]]},
+                "mode"  : "000751",
+                "owner" : "root",
+                "group" : "root"
+              }
+            },
+            "services": {
+              "sysvinit": {  
+                "mongo": {
+                  "enabled": true,
+                  "ensureRunning": true,
+                  "files": ["/etc/init.d/mongo"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "MongoReplica2": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": {"Ref": "InstanceType"},
+        "SecurityGroups": [{"Ref": "MongoSecurityGroup"}],
+        "KeyName": {"Ref": "KeyName"},
+        "ImageId": {"Ref": "ImageId"},
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+             "#!/bin/bash -xe\n",
+             "yum update aws-cfn-bootstrap\n",
+
+             "# Install the files and packages from the metadata\n",
+             "/opt/aws/bin/cfn-init ",
+             "         --stack ", { "Ref" : "AWS::StackName" },
+             "         --resource MongoReplica2 ",
+             "         --configsets Install ",
+             "         --region ", { "Ref" : "AWS::Region" }, "\n",
+
+             "# Signal the status from cfn-init\n",
+             "/opt/aws/bin/cfn-signal -e $? ",
+             "         --stack ", { "Ref" : "AWS::StackName" },
+             "         --resource MongoReplica2 ",
+             "         --region ", { "Ref" : "AWS::Region" }, "\n"
+        ]]}}
+      },
+
+      "CreationPolicy" : {
+        "ResourceSignal" : {
+          "Timeout" : "PT5M"
+        }
+      },
+
+      "Metadata" : {
+        "Comment1" : "Configure the bootstrap helpers to install Docker and start Mongo.",
+
+        "AWS::CloudFormation::Init" : {
+          "configSets": {
+            "Install": ["docker", "mongo"]
+          },
+          "docker": {
+            "packages" : {
+              "yum" : {
+                "docker": []
+              }
+            },
+            "services": {
+              "sysvinit": {  
+                "docker": {
+                  "enabled": true,
+                  "ensureRunning": true
+                }
+              }
+            }
+          },
+          "mongo": {
+            "files" : {
+              "/etc/init.d/mongo": {
+                "content" : {"Fn::Join": ["", [
+                  "#!/bin/bash", "\n",
+                  "# chkconfig: 2345 20 80", "\n",
+                  "", "\n",
+                  "# Source function library.", "\n",
+                  ". /etc/init.d/functions", "\n",
+                  "\n",
+                  "start() {", "\n",
+                  "    docker rm -f mongo", "\n",
+                  "    docker run --name mongo -p 27017:27017 -d mongo --replSet rs0", "\n",
+                  "}", "\n",
+                  "\n",
+                  "stop() {", "\n",
+                  "    docker rm -f mongo ", "\n",
+                  "}", "\n",
+                  "\n",
+                  "case \"$1\" in ", "\n",
+                  "    start)", "\n",
+                  "       start", "\n",
+                  "       ;;", "\n",
+                  "    stop)", "\n",
+                  "       stop", "\n",
+                  "       ;;", "\n",
+                  "    restart)", "\n",
+                  "       stop", "\n",
+                  "       start", "\n",
+                  "       ;;", "\n",
+                  "    *)", "\n",
+                  "       echo \"Usage: $0 {start|stop|restart}\"", "\n",
+                  "esac", "\n",
+                  "\n",
+                  "exit 0", "\n",
+                  "\n"
+                ]]},
+                "mode"  : "000751",
+                "owner" : "root",
+                "group" : "root"
+              }
+            },
+            "services": {
+              "sysvinit": {  
+                "mongo": {
+                  "enabled": true,
+                  "ensureRunning": true,
+                  "files": ["/etc/init.d/mongo"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "MongoPrimary": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": {"Ref": "InstanceType"},
+        "SecurityGroups": [{"Ref": "MongoSecurityGroup"}],
+        "KeyName": {"Ref": "KeyName"},
+        "ImageId": {"Ref": "ImageId"},
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+             "#!/bin/bash -xe\n",
+             "yum update aws-cfn-bootstrap\n",
+
+             "# Install the files and packages from the metadata\n",
+             "/opt/aws/bin/cfn-init ",
+             "         --stack ", { "Ref" : "AWS::StackName" },
+             "         --resource MongoPrimary ",
+             "         --configsets Install ",
+             "         --region ", { "Ref" : "AWS::Region" }, "\n",
+
+             "# Signal the status from cfn-init\n",
+             "/opt/aws/bin/cfn-signal -e $? ",
+             "         --stack ", { "Ref" : "AWS::StackName" },
+             "         --resource MongoPrimary ",
+             "         --region ", { "Ref" : "AWS::Region" }, "\n"
+        ]]}}
+      },
+
+      "CreationPolicy" : {
+        "ResourceSignal" : {
+          "Timeout" : "PT5M"
+        }
+      },
+
+      "Metadata" : {
+        "Comment1" : "Configure the bootstrap helpers to install Docker and start Mongo.",
+
+        "AWS::CloudFormation::Init" : {
+          "configSets": {
+            "Install": ["docker", "mongo"]
+          },
+          "docker": {
+            "packages" : {
+              "yum" : {
+                "docker": []
+              }
+            },
+            "services": {
+              "sysvinit": {  
+                "docker": {
+                  "enabled": true,
+                  "ensureRunning": true
+                }
+              }
+            }
+          },
+          "mongo": {
+            "files" : {
+              "/etc/init.d/mongo": {
+                "content" : {"Fn::Join": ["", [
+                  "#!/bin/bash", "\n",
+                  "# chkconfig: 2345 20 80", "\n",
+                  "", "\n",
+                  "# Source function library.", "\n",
+                  ". /etc/init.d/functions", "\n",
+                  "\n",
+                  "start() {", "\n",
+                  "    docker rm -f mongo", "\n",
+                  "    docker run --name mongo -p 27017:27017 -d mongo --replSet rs0", "\n",
+                  "    docker exec -it mongo mongo --eval \"rs.initiate({",
+                  "      _id: \"rs0\",",
+                  "      members: [",
+                  "        { _id: 0, host: \"", { "Fn::GetAtt" : [ "MongoPrimary", "PublicDnsName" ] }, ":27017\" },",
+                  "        { _id: 1, host: \"", { "Fn::GetAtt" : [ "MongoReplica1", "PublicDnsName" ] }, ":27017\" },",
+                  "        { _id: 2, host: \"", { "Fn::GetAtt" : [ "MongoReplica2", "PublicDnsName" ] }, ":27017\" }",
+                  "      ]",
+                  "    })\"", "\n",
+                  "}", "\n",
+                  "\n",
+                  "stop() {", "\n",
+                  "    docker rm -f mongo ", "\n",
+                  "}", "\n",
+                  "\n",
+                  "case \"$1\" in ", "\n",
+                  "    start)", "\n",
+                  "       start", "\n",
+                  "       ;;", "\n",
+                  "    stop)", "\n",
+                  "       stop", "\n",
+                  "       ;;", "\n",
+                  "    restart)", "\n",
+                  "       stop", "\n",
+                  "       start", "\n",
+                  "       ;;", "\n",
+                  "    *)", "\n",
+                  "       echo \"Usage: $0 {start|stop|restart}\"", "\n",
+                  "esac", "\n",
+                  "\n",
+                  "exit 0", "\n",
+                  "\n"
+                ]]},
+                "mode"  : "000751",
+                "owner" : "root",
+                "group" : "root"
+              }
+            },
+            "services": {
+              "sysvinit": {  
+                "mongo": {
+                  "enabled": true,
+                  "ensureRunning": true,
+                  "files": ["/etc/init.d/mongo"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "MongoSecurityGroup" : {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Enable SSH access via port 22. Open HTTP/s on all. Open mongodb port to all.",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": {"Ref": "SSHLocation"}
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "443",
+            "ToPort": "443",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "443",
+            "ToPort": "443",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      }
+    },
+    "MongoSecurityGroupIngress" : {
+      "Type" : "AWS::EC2::SecurityGroupIngress",
+      "Properties" : {
+        "GroupName" : { "Ref" : "MongoSecurityGroup" },
+        "IpProtocol" : "tcp",
+        "FromPort" : "27017",
+        "ToPort" : "27017",
+        "SourceSecurityGroupName" : { "Ref" : "MongoSecurityGroup" }
+      }
+    },
+
     "APIEC2Instance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
@@ -83,7 +446,7 @@
              "         --stack ", { "Ref" : "AWS::StackName" },
              "         --resource APIEC2Instance ",
              "         --region ", { "Ref" : "AWS::Region" }, "\n"
-        ]]}},
+        ]]}}
       },
 
       "CreationPolicy" : {
@@ -125,10 +488,15 @@
                   ". /etc/init.d/functions", "\n",
                   "\n",
                   "start() {", "\n",
-                  "    docker login -u ", {"Ref": "DockerUser"}, " -p ", {"Ref": "DockerPassword"}, "\n",
                   "    docker rm -f gorest", "\n",
                   "    docker pull ", {"Ref": "DockerImage"}, "\n",
-                  "    docker run --name gorest -p 80:5000 -d -e DB_URL=\"", {"Ref": "MongoDBURL"}, "\" ", {"Ref": "DockerImage"}, "\n",
+                  "    docker run --name gorest",
+                  "               -p 80:5000",
+                  "               -d",
+                  "               -e DB_URL=\"mongodb://", { "Fn::GetAtt" : [ "MongoPrimary", "PublicDnsName" ] }, ":27017,",
+                                                           { "Fn::GetAtt" : [ "MongoReplica1", "PublicDnsName" ] }, ":27017,",
+                                                           { "Fn::GetAtt" : [ "MongoReplica2", "PublicDnsName" ] }, ":27017/cmpe281?replicaSet=rs0", "\"",
+                  "               ", {"Ref": "DockerImage"}, "\n",
                   "}", "\n",
                   "\n",
                   "stop() {", "\n",
@@ -215,6 +583,18 @@
     "PublicIP" : {
       "Description" : "Public IP address of the newly created EC2 instance",
       "Value" : { "Fn::GetAtt" : [ "APIEC2Instance", "PublicIp" ] }
+    },
+    "MongoInstance1PublicDNS": {
+      "Description": "Public DNSName of the newly created EC2 instance running mongo",
+      "Value": { "Fn::GetAtt" : [ "MongoPrimary", "PublicDnsName" ] }
+    },
+    "MongoInstance2PublicDNS": {
+      "Description": "Public DNSName of the newly created EC2 instance running mongo",
+      "Value": { "Fn::GetAtt" : [ "MongoReplica1", "PublicDnsName" ] }
+    },
+    "MongoInstance3PublicDNS": {
+      "Description": "Public DNSName of the newly created EC2 instance running mongo",
+      "Value": { "Fn::GetAtt" : [ "MongoReplica2", "PublicDnsName" ] }
     }
   }
 }
